@@ -9,7 +9,7 @@ public class EnterTitleScreen : MonoBehaviour
     void Update()
     {
         if(Input.anyKey){
-            SceneManagement.LoadScene("StartScreen");
+            SceneManager.LoadScene(sceneName:"MainMenu");
         }
     }
 }
