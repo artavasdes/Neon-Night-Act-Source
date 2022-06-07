@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Numerics;
 
 public class NFTChecker : MonoBehaviour
 {
     public string chain = "ethereum";
     public string network = "rinkeby";
     public string contract = "0x5D5220AC4aE1615C6ff524490e3b23988190599A";
-    public string tokenId = "0";
-
+    public string account = "0x36F4D7ff8C442ea1eB38F60BeC8e8177101134BC";
+    public string tokenId = "10";
     private void Start(){
         GetNFTImage();
     }
@@ -38,10 +39,13 @@ public class NFTChecker : MonoBehaviour
             if(texture2d == null){
                 Debug.Log("texture2d null");
             }
-            Sprite mySprite = Sprite.Create(texture2d, new Rect(0.0f, 0.0f, texture2d.width, texture2d.height), new Vector2(0.5f, 0.5f), 100.0f);
+            BigInteger balanceOf = await ERC1155.BalanceOf(chain, network, contract, account, tokenId);
+            Debug.Log(balanceOf);
+
+            // Sprite mySprite = Sprite.Create(texture2d, new Rect(0.0f, 0.0f, texture2d.width, texture2d.height), new Vector2(0.5f, 0.5f), 100.0f);
         
-            SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = mySprite;
+            // SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            // spriteRenderer.sprite = mySprite;
         }
     }
 }
