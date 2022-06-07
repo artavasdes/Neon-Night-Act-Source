@@ -12,12 +12,17 @@ public class Bandit : MonoBehaviour {
     private bool                m_grounded = false;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
+    public int maxHealth = 100; 
+    public int currentHealth; 
+    public HealthBar healthBar; 
 
     // Use this for initialization
     void Start () {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
+        currentHealth = maxHealth; 
+        healthBar.SetMaxHealth(maxHealth);
     }
 	
 	// Update is called once per frame
@@ -61,9 +66,11 @@ public class Bandit : MonoBehaviour {
         }
             
         //Hurt
-        else if (Input.GetKeyDown("q"))
+        else if (Input.GetKeyDown("q")){
+            TakeDamage(20); 
             m_animator.SetTrigger("Hurt");
-
+        }   
+        
         //Attack
         else if(Input.GetMouseButtonDown(0)) {
             m_animator.SetTrigger("Attack");
@@ -93,5 +100,14 @@ public class Bandit : MonoBehaviour {
         //Idle
         else
             m_animator.SetInteger("AnimState", 0);
+    }
+
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage; 
+        healthBar.SetHealth(currentHealth);
+        if (currentHealth <= 0){
+            m_animator.SetTrigger("Death");
+        }
     }
 }
