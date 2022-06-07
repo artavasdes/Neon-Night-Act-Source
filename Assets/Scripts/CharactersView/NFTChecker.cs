@@ -21,6 +21,7 @@ public class NFTChecker : MonoBehaviour
 
     async private void GetNFTImage(){
         string uri = await ERC1155.URI(chain, network, contract, tokenId);
+        Debug.Log(uri);
 
         UnityWebRequest webRequest = UnityWebRequest.Get(uri);
         await webRequest.SendWebRequest();
@@ -30,16 +31,22 @@ public class NFTChecker : MonoBehaviour
 
         Debug.Log(imageUri);
 
-        UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(imageUri);
-        await textureRequest.SendWebRequest();
+        //Succesfully pulls correct URI
 
+        UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(imageUri);
+
+        await textureRequest.SendWebRequest();
+        if(textureRequest == null){
+            Debug.Log("texture request is null");
+        }
+
+        //texture 2d null for some reason
         Texture2D texture2d = DownloadHandlerTexture.GetContent(textureRequest);
 
         //Texture2D texture2d = (Texture2D) textureOriginal;
         if(texture2d == null){
-            Debug.Log("null");
+            Debug.Log("texture 2d null");
         }
-
         // Sprite mySprite = Sprite.Create(texture2d, new Rect(0.0f, 0.0f, texture2d.width, texture2d.height), new Vector2(0.5f, 0.5f), 100.0f);
         
         // SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
