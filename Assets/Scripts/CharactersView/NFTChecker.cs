@@ -28,28 +28,20 @@ public class NFTChecker : MonoBehaviour
         Response data = JsonUtility.FromJson<Response>(System.Text.Encoding.UTF8.GetString(webRequest.downloadHandler.data));
 
         string imageUri = data.image;
-
         Debug.Log(imageUri);
 
-        //Succesfully pulls correct URI
-
-        UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(imageUri);
-
-        await textureRequest.SendWebRequest();
-        if(textureRequest == null){
-            Debug.Log("texture request is null");
-        }
-
-        //texture 2d null for some reason
-        Texture2D texture2d = DownloadHandlerTexture.GetContent(textureRequest);
-
-        //Texture2D texture2d = (Texture2D) textureOriginal;
-        if(texture2d == null){
-            Debug.Log("texture 2d null");
-        }
-        // Sprite mySprite = Sprite.Create(texture2d, new Rect(0.0f, 0.0f, texture2d.width, texture2d.height), new Vector2(0.5f, 0.5f), 100.0f);
+        using (UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(imageUri))
+        {
+            await textureRequest.SendWebRequest();
+            //Texture2D texture2d = DownloadHandlerTexture.GetContent(textureRequest);
+            Texture2D texture2d = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
+            if(texture2d == null){
+                Debug.Log("texture2d null");
+            }
+            Sprite mySprite = Sprite.Create(texture2d, new Rect(0.0f, 0.0f, texture2d.width, texture2d.height), new Vector2(0.5f, 0.5f), 100.0f);
         
-        // SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        // spriteRenderer.sprite = mySprite;
+            SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = mySprite;
+        }
     }
 }
