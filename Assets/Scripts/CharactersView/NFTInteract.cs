@@ -31,12 +31,20 @@ public class Metadata
 //Interacting with blockchain
 public class NFTInteract : MonoBehaviour
 {
+    /*
     //The chain to interact with, using Polygon here
     public string chain = "polygon";
     //The network to interact with (mainnet, testnet)
     public string network = "mainnet";
     //Contract to interact with, contract below is "Project: Pigeon Smart Contract"
     public string contract = "0xb68bCe041c7DDbA9d03AFD13BFeCf9d89aB8ba65";
+    //Token ID to pull from contract
+    public string tokenId = "0";
+    */  
+
+    public string chain = "ethereum";
+    public string network = "rinkeby";
+    public string contract = "0x5D5220AC4aE1615C6ff524490e3b23988190599A";
     //Token ID to pull from contract
     public string tokenId = "0";
     //Used for storing metadata
@@ -51,7 +59,7 @@ public class NFTInteract : MonoBehaviour
     async private void GetNFTImage()
     {
         //Interacts with the Blockchain to find the URI related to that specific token
-        string URI = await ERC721.URI(chain, network, contract, tokenId);
+        string URI = await ERC1155.URI(chain, network, contract, tokenId);
 
         //Perform webrequest to get JSON file from URI
         using (UnityWebRequest webRequest = UnityWebRequest.Get(URI))
@@ -76,10 +84,9 @@ public class NFTInteract : MonoBehaviour
             //Sets the objects main render material to the texture
             Debug.Log("Got sprite");
 
-            // SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            // spriteRenderer.sprite = mySprite;
-            this.gameObject.GetComponent<Image>().sprite = mySprite;
-            
+            SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = mySprite;
+            //this.gameObject.GetComponent<Image>().sprite = mySprite;
             Debug.Log("Updated sprite");
         }
         
