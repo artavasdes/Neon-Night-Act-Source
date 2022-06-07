@@ -9,8 +9,13 @@ public class ImportNFTTextureExample : MonoBehaviour
     public class Response {
         public string image;
     }
+    private void Start()
+    {
+        //Starts async function to get the NFT image
+        GetNFTImage();
+    }
 
-    async void Start()
+    async private void GetNFTImage()
     {
         string chain = "ethereum";
         string network = "rinkeby";
@@ -33,6 +38,16 @@ public class ImportNFTTextureExample : MonoBehaviour
         // fetch image and display in game
         UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(imageUri);
         await textureRequest.SendWebRequest();
-        this.gameObject.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
+
+        Texture textureOriginal = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
+        Texture2D texture2d = (Texture2D) textureOriginal;
+        Sprite mySprite = Sprite.Create(texture2d, new Rect(0.0f, 0.0f, texture2d.width, texture2d.height), new Vector2(0.5f, 0.5f), 100.0f);
+        Debug.Log("Got sprite");
+
+        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = mySprite;
+        Debug.Log("Updated sprite");
+
+        //this.gameObject.GetComponent<Renderer>().material.mainTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
     }
 }
