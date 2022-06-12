@@ -9,6 +9,15 @@ public class HealthBar : MonoBehaviour
 	public Slider slider;
 	public Gradient gradient;
 	public Image fill;
+	public GameObject icon;
+	public bool taken = false;
+
+	public void SetVisible() {
+		gameObject.SetActive(true);
+		icon.SetActive(true);
+		taken = true;
+		// Debug.Log(1);
+	}
 
 	public void SetMaxHealth(int health)
 	{

@@ -6,14 +6,14 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
 
-    public float TimeLeft; 
-    public bool TimerOn = false; 
+    public float TimeLeft = 200.0F;
+    public bool TimerOn = false;
 
     public TextMeshProUGUI TimerText;
-    void Start()
-    {
-        TimerOn = true; 
-    }
+    // void Start()
+    // {
+    //     TimerOn = true;
+    // }
 
     // Update is called once per frame
     void Update()
@@ -23,21 +23,21 @@ public class Timer : MonoBehaviour
             if (TimeLeft > 0)
             {
                 updateTimer(TimeLeft);
-                TimeLeft -= Time.deltaTime; 
+                TimeLeft -= Time.deltaTime;
             }
-            else 
+            else
             {
                 Debug.Log("Time is Up!");
                 TimeLeft = 0;
-                TimerOn = false; 
+                TimerOn = false;
             }
         }
     }
 
     void updateTimer(float currentTime)
     {
-        currentTime -= 1; 
-        
+        currentTime -= 1;
+
         TimerText.text = currentTime.ToString("N0");
     }
 

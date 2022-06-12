@@ -16,23 +16,23 @@ public class Character_Control : MonoBehaviour {
     private bool                m_grounded = false;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
-    public int maxHealth = 100; 
-    public int currentHealth; 
-    public HealthBar healthBar; 
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar healthBar;
 
     // New Input System
     Vector2 inputMove = Vector2.zero;
 
-    
+
     // Use this for initialization
     void Start () {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
-        currentHealth = maxHealth; 
+        currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
-	
+
 	// Update is called once per frame
 	void Update () {
         //Check if character just landed on the ground
@@ -48,17 +48,17 @@ public class Character_Control : MonoBehaviour {
         }
 
         // -- Handle input and movement --
-        // float inputX = Input.GetAxis("Horizontal");  
+        // float inputX = Input.GetAxis("Horizontal");
         float inputX = inputMove.x;
 
-        
+
         if (!m_isDead) {
             // Swap direction of sprite depending on walk direction
             if (inputX > 0) {
                 transform.localScale = new Vector3(-scale, scale, scale);
                 m_animator.SetInteger("AnimState", 2);
             }
-                
+
             else if (inputX < 0) {
                 transform.localScale = new Vector3(scale, scale, scale);
                 m_animator.SetInteger("AnimState", 2);
@@ -70,30 +70,30 @@ public class Character_Control : MonoBehaviour {
             //Idle
             else
                 m_animator.SetInteger("AnimState", 0);
-                
 
-    
+
+
             // Move
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
         }
-        
+
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
 
         // -- Handle Animations --
         //Death
-       
-            
-        
+
+
+
     }
 
     public void OnMove(InputAction.CallbackContext value) {
         if (!m_isDead) {
             inputMove = value.ReadValue<Vector2>();
         }
-        
-        
+
+
     }
 
     public void OnJump(InputAction.CallbackContext value) {
@@ -114,7 +114,7 @@ public class Character_Control : MonoBehaviour {
 
     public void OnHurt(InputAction.CallbackContext value) {
         if (!m_isDead) {
-            TakeDamage(20); 
+            TakeDamage(20);
             if (currentHealth <= 0) {
                 m_animator.SetTrigger("Death");
                 m_isDead = true;
@@ -122,9 +122,9 @@ public class Character_Control : MonoBehaviour {
             else {
                 m_animator.SetTrigger("Hurt");
             }
-            
+
         }
-        
+
     }
 
     public void OnDeath(InputAction.CallbackContext value) {
@@ -132,13 +132,13 @@ public class Character_Control : MonoBehaviour {
             m_animator.SetTrigger("Death");
             m_isDead = true;
         }
-                
+
         else {
             m_animator.SetTrigger("Recover");
             currentHealth = maxHealth;
             m_isDead = false;
         }
-        
+
 
     }
 
@@ -148,7 +148,7 @@ public class Character_Control : MonoBehaviour {
 
     void TakeDamage(int damage)
     {
-        currentHealth -= damage; 
+        currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0){
             m_animator.SetTrigger("Death");
