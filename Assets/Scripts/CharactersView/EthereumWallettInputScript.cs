@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEditor;
 
 public class EthereumWallettInputScript : MonoBehaviour
 {
@@ -44,12 +43,12 @@ public class EthereumWallettInputScript : MonoBehaviour
             //Obtains b/w character cg
             string grayCGPath = "";
             if(i == 13){
-                grayCGPath = "Assets/ArtAssets/HighQualityCGs/Normal/" + i + "cg.png";
+                grayCGPath = "HighQualityCGs/Normal/" + i + "cg";
             }
             else{
-                grayCGPath = "Assets/ArtAssets/HighQualityCGs/Gray/" + i + "gray.png";
+                grayCGPath = "HighQualityCGs/Gray/" + i + "gray";
             }           
-            Texture2D grayCG = (Texture2D)AssetDatabase.LoadAssetAtPath(grayCGPath, typeof(Texture2D));
+            Texture2D grayCG = Resources.Load<Texture2D>(grayCGPath);
             Sprite grayCGSprite = Sprite.Create(grayCG, new Rect(0.0f, 0.0f, grayCG.width, grayCG.height), new Vector2(0.5f, 0.5f), 100.0f);
             GameObject NewObj = new GameObject();
             Image imageRenderer = NewObj.AddComponent<Image>();
@@ -93,8 +92,8 @@ public class EthereumWallettInputScript : MonoBehaviour
     void MakeGray(){
         string path = Application.dataPath;
         for(int i = 0; i < 13; i++){
-            string grayCGPath = "Assets/ArtAssets/HighQualityCGs/Gray/" + i + "gray.png";
-            Texture2D grayCG = (Texture2D) AssetDatabase.LoadAssetAtPath(grayCGPath, typeof(Texture2D));
+            string grayCGPath = "HighQualityCGs/Gray/" + i + "gray";
+            Texture2D grayCG = Resources.Load<Texture2D>(grayCGPath);
             Sprite grayCGSprite = Sprite.Create(grayCG , new Rect(0.0f, 0.0f, grayCG.width, grayCG.height), new Vector2(0.5f, 0.5f), 100.0f);
             GameObject NewObj = objectsList[i];
             Image imageRenderer = NewObj.GetComponent<Image>();
@@ -106,16 +105,16 @@ public class EthereumWallettInputScript : MonoBehaviour
         string path = Application.dataPath;
         for(int i = 0; i < 13; i++){
             if (nftDic[i] == true){
-                string cgPath = "Assets/ArtAssets/HighQualityCGs/Normal/" + i + "cg.png";
-                Texture2D CG = (Texture2D) AssetDatabase.LoadAssetAtPath(cgPath, typeof(Texture2D));
+                string cgPath = "HighQualityCGs/Normal/" + i + "cg";
+                Texture2D CG = Resources.Load<Texture2D>(cgPath);
                 Sprite cgSprite = Sprite.Create(CG, new Rect(0.0f, 0.0f, CG.width, CG.height), new Vector2(0.5f, 0.5f), 100.0f);
                 GameObject NewObj = objectsList[i];
                 Image imageRenderer = NewObj.GetComponent<Image>();
                 imageRenderer.sprite = cgSprite;
             }
             else{
-                string grayCGPath = "Assets/ArtAssets/HighQualityCGs/Gray/" + i + "gray.png";
-                Texture2D grayCG = (Texture2D) AssetDatabase.LoadAssetAtPath(grayCGPath, typeof(Texture2D));
+                string grayCGPath = "HighQualityCGs/Gray/" + i + "gray";
+                Texture2D grayCG = Resources.Load<Texture2D>(grayCGPath);
                 Sprite grayCGSprite = Sprite.Create(grayCG , new Rect(0.0f, 0.0f, grayCG.width, grayCG.height), new Vector2(0.5f, 0.5f), 100.0f);
                 GameObject NewObj = objectsList[i];
                 Image imageRenderer = NewObj.GetComponent<Image>();

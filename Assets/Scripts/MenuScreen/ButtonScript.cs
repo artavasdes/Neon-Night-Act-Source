@@ -11,4 +11,7 @@ public class ButtonScript : MonoBehaviour
     public void connectionSceneChange(){
         SceneManager.LoadScene("ConnectionScene");
     }
+    public void characterSelectionSceneChange(){
+        SceneManager.LoadScene("CharacterSelection");
+    }
 }
