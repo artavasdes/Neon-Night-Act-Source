@@ -14,30 +14,26 @@ public class EthereumWallettInputScript : MonoBehaviour
     [SerializeField]
     public GameObject ParentPanel;
     public List<GameObject> objectsList = new List<GameObject>();
-    public bool validAddress = false;
 
     public async void ReadStringInput(string s){
         if(s.Length == 42){
             Debug.Log("Valid Address");
             walletAddress = s;
-            CheckNFTOwner nftOwnerCheck = new CheckNFTOwner();  
 
-            await nftOwnerCheck.CheckOwner(walletAddress);
+            await CheckNFTOwner.CheckOwner(walletAddress);
 
-            Debug.Log("count" + nftOwnerCheck.ownerDic.Count);
+            Debug.Log("count" + CheckNFTOwner.ownerDic.Count);
 
-            foreach (KeyValuePair<int, bool> kvp in nftOwnerCheck.ownerDic)
+            foreach (KeyValuePair<int, bool> kvp in CheckNFTOwner.ownerDic)
                 Debug.Log("Key = {0}, Value = {1}" + kvp.Key + kvp.Value);
 
-            CharacterDisplayer(nftOwnerCheck.ownerDic);
+            CharacterDisplayer(CheckNFTOwner.ownerDic);
+            CheckNFTOwner.validAddress = true;
             validMessageChange.text = "Valid Address";
-            validAddress = true;
-            Debug.Log(validAddress);
         }
         else{
+            CheckNFTOwner.validAddress = false;
             MakeGray();
-            validAddress = false;
-            Debug.Log(validAddress);
             validMessageChange.text = "Please Enter a Valid Ethereum Address";
         }
     }
