@@ -1,11 +1,12 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Character_Control : MonoBehaviour {
-
-    [SerializeField] float      m_speed = 4.0f;
-    [SerializeField] float      m_jumpForce = 7.5f;
-    [SerializeField] float      scale = 2f;
+public class Character_Controller_2 : MonoBehaviour
+{
+    // [SerializeField] float      m_speed = 4.0f;
+    // [SerializeField] float      m_jumpForce = 7.5f;
+    // [SerializeField] float      scale = 2f;
 
 
 
@@ -42,17 +43,17 @@ public class Character_Control : MonoBehaviour {
             m_animator.SetBool("Grounded", m_grounded);
         }
 
-        // -- Handle input and movement --
-        float inputX = Input.GetAxis("Horizontal");
+        // // -- Handle input and movement --
+        // float inputX = Input.GetAxis("Horizontal");
 
-        // Swap direction of sprite depending on walk direction
-        if (inputX > 0)
-            transform.localScale = new Vector3(-scale, scale, scale);
-        else if (inputX < 0)
-            transform.localScale = new Vector3(scale, scale, scale);
+        // // Swap direction of sprite depending on walk direction
+        // if (inputX > 0)
+        //     transform.localScale = new Vector3(-scale, scale, scale);
+        // else if (inputX < 0)
+        //     transform.localScale = new Vector3(scale, scale, scale);
 
-        // Move
-        m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+        // // Move
+        // m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
@@ -84,17 +85,17 @@ public class Character_Control : MonoBehaviour {
             m_combatIdle = !m_combatIdle;
 
         //Jump
-        else if (Input.GetKeyDown("space") && m_grounded) {
-            m_animator.SetTrigger("Jump");
-            m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
-            m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
-            m_groundSensor.Disable(0.2f);
-        }
+        // else if (Input.GetKeyDown("space") && m_grounded) {
+        //     m_animator.SetTrigger("Jump");
+        //     m_grounded = false;
+        //     m_animator.SetBool("Grounded", m_grounded);
+        //     m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+        //     m_groundSensor.Disable(0.2f);
+        // }
 
-        //Run
-        else if (Mathf.Abs(inputX) > Mathf.Epsilon)
-            m_animator.SetInteger("AnimState", 2);
+        // //Run
+        // else if (Mathf.Abs(inputX) > Mathf.Epsilon)
+        //     m_animator.SetInteger("AnimState", 2);
 
         //Combat Idle
         else if (m_combatIdle)
