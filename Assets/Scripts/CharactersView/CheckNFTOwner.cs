@@ -9,7 +9,7 @@ public class CheckNFTOwner
     public string chain = "ethereum";
     public string network = "rinkeby";
     public string contract = "0x5D5220AC4aE1615C6ff524490e3b23988190599A";
-    public int tokenIdAmount = 5;
+    public int tokenIdAmount = 14;
     public Dictionary<int, bool> ownerDic = new Dictionary<int, bool>();
 
     public async Task CheckOwner(string account)
