@@ -45,14 +45,19 @@ public class Character_Control : MonoBehaviour {
         // -- Handle input and movement --
         float inputX = Input.GetAxis("Horizontal");
 
-        // Swap direction of sprite depending on walk direction
-        if (inputX > 0)
-            transform.localScale = new Vector3(-scale, scale, scale);
-        else if (inputX < 0)
-            transform.localScale = new Vector3(scale, scale, scale);
+        
+        if (!m_isDead) {
+            // Swap direction of sprite depending on walk direction
+            if (inputX > 0)
+                transform.localScale = new Vector3(-scale, scale, scale);
+            else if (inputX < 0)
+                transform.localScale = new Vector3(scale, scale, scale);
 
-        // Move
-        m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+    
+            // Move
+            m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+        }
+        
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
@@ -67,42 +72,46 @@ public class Character_Control : MonoBehaviour {
 
             m_isDead = !m_isDead;
         }
+
+        if (!m_isDead) {
+            //Hurt
+            if (Input.GetKeyDown("q")){
+                TakeDamage(20); 
+                m_animator.SetTrigger("Hurt");
+            }   
             
-        //Hurt
-        else if (Input.GetKeyDown("q")){
-            TakeDamage(20); 
-            m_animator.SetTrigger("Hurt");
-        }   
+            //Attack
+            else if(Input.GetMouseButtonDown(0)) {
+                m_animator.SetTrigger("Attack");
+            }
+
+            //Change between idle and combat idle
+            else if (Input.GetKeyDown("f"))
+                m_combatIdle = !m_combatIdle;
+
+            //Jump
+            else if (Input.GetKeyDown("space") && m_grounded) {
+                m_animator.SetTrigger("Jump");
+                m_grounded = false;
+                m_animator.SetBool("Grounded", m_grounded);
+                m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+                m_groundSensor.Disable(0.2f);
+            }
+
+            //Run
+            else if (Mathf.Abs(inputX) > Mathf.Epsilon)
+                m_animator.SetInteger("AnimState", 2);
+
+            //Combat Idle
+            else if (m_combatIdle)
+                m_animator.SetInteger("AnimState", 1);
+
+            //Idle
+            else
+                m_animator.SetInteger("AnimState", 0);
+        }
+            
         
-        //Attack
-        else if(Input.GetMouseButtonDown(0)) {
-            m_animator.SetTrigger("Attack");
-        }
-
-        //Change between idle and combat idle
-        else if (Input.GetKeyDown("f"))
-            m_combatIdle = !m_combatIdle;
-
-        //Jump
-        else if (Input.GetKeyDown("space") && m_grounded) {
-            m_animator.SetTrigger("Jump");
-            m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
-            m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
-            m_groundSensor.Disable(0.2f);
-        }
-
-        //Run
-        else if (Mathf.Abs(inputX) > Mathf.Epsilon)
-            m_animator.SetInteger("AnimState", 2);
-
-        //Combat Idle
-        else if (m_combatIdle)
-            m_animator.SetInteger("AnimState", 1);
-
-        //Idle
-        else
-            m_animator.SetInteger("AnimState", 0);
     }
 
     void TakeDamage(int damage)
