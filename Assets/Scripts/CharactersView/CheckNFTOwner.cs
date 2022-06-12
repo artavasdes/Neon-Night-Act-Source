@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 public class CheckNFTOwner
 {
-    public string chain = "ethereum";
-    public string network = "rinkeby";
-    public string contract = "0x5D5220AC4aE1615C6ff524490e3b23988190599A";
-    public int tokenIdAmount = 14;
+    public string chain = "polygon";
+    public string network = "mainnet";
+    public string contract = "0x3a686FaBCE1b315950D39367131C4C17B1BaBF23";
+    public int tokenIdAmount = 12;
     public Dictionary<int, bool> ownerDic = new Dictionary<int, bool>();
 
     public async Task CheckOwner(string account)

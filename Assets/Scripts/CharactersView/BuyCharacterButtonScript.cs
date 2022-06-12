@@ -5,7 +5,7 @@
   {
       public void OpenURL()
       {
-          Application.OpenURL("https://testnets.opensea.io/assets/unidentified-contract-csapfibmkh");
+          Application.OpenURL("https://opensea.io/collection/neon-night-act-source");
       }
   }
 
