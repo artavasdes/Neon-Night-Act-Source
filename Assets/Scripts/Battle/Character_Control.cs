@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 using System.Collections;
 
 public class Character_Control : MonoBehaviour {
-
     [SerializeField] float      m_speed = 4.0f;
     [SerializeField] float      m_jumpForce = 7.5f;
     [SerializeField] float      scale = 2f;
@@ -20,10 +19,6 @@ public class Character_Control : MonoBehaviour {
     public int currentHealth;
     public HealthBar healthBar;
 
-    // New Input System
-    Vector2 inputMove = Vector2.zero;
-
-
     // Use this for initialization
     void Start () {
         m_animator = GetComponent<Animator>();
@@ -31,6 +26,7 @@ public class Character_Control : MonoBehaviour {
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        transform.localScale = new Vector3(scale, scale, scale);
     }
 
 	// Update is called once per frame
@@ -48,102 +44,66 @@ public class Character_Control : MonoBehaviour {
         }
 
         // -- Handle input and movement --
-        // float inputX = Input.GetAxis("Horizontal");
-        float inputX = inputMove.x;
+        float inputX = Input.GetAxis("Horizontal");
 
+        // Swap direction of sprite depending on walk direction
+        if (inputX > 0)
+            transform.localScale = new Vector3(-scale, scale, scale);
+        else if (inputX < 0)
+            transform.localScale = new Vector3(scale, scale, scale);
 
-        if (!m_isDead) {
-            // Swap direction of sprite depending on walk direction
-            if (inputX > 0) {
-                transform.localScale = new Vector3(-scale, scale, scale);
-                m_animator.SetInteger("AnimState", 2);
-            }
-
-            else if (inputX < 0) {
-                transform.localScale = new Vector3(scale, scale, scale);
-                m_animator.SetInteger("AnimState", 2);
-            }
-
-            else if (m_combatIdle)
-                m_animator.SetInteger("AnimState", 1);
-
-            //Idle
-            else
-                m_animator.SetInteger("AnimState", 0);
-
-
-
-            // Move
-            m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
-        }
-
+        // Move
+        m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
 
         // -- Handle Animations --
         //Death
+        if (Input.GetKeyDown("e")) {
+            if(!m_isDead)
+                m_animator.SetTrigger("Death");
+            else
+                m_animator.SetTrigger("Recover");
 
-
-
-    }
-
-    public void OnMove(InputAction.CallbackContext value) {
-        if (!m_isDead) {
-            inputMove = value.ReadValue<Vector2>();
+            m_isDead = !m_isDead;
         }
 
+        //Hurt
+        else if (Input.GetKeyDown("q")){
+            TakeDamage(20);
+            m_animator.SetTrigger("Hurt");
+        }
 
-    }
+        //Attack
+        else if(Input.GetMouseButtonDown(0)) {
+            m_animator.SetTrigger("Attack");
+        }
 
-    public void OnJump(InputAction.CallbackContext value) {
-        if (m_grounded && !m_isDead) {
+        //Change between idle and combat idle
+        else if (Input.GetKeyDown("f"))
+            m_combatIdle = !m_combatIdle;
+
+        //Jump
+        else if (Input.GetKeyDown("space") && m_grounded) {
             m_animator.SetTrigger("Jump");
             m_grounded = false;
             m_animator.SetBool("Grounded", m_grounded);
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             m_groundSensor.Disable(0.2f);
         }
-    }
 
-    public void OnAttack(InputAction.CallbackContext value) {
-        if (!m_isDead) {
-            m_animator.SetTrigger("Attack");
-        }
-    }
+        //Run
+        else if (Mathf.Abs(inputX) > Mathf.Epsilon)
+            m_animator.SetInteger("AnimState", 2);
 
-    public void OnHurt(InputAction.CallbackContext value) {
-        if (!m_isDead) {
-            TakeDamage(20);
-            if (currentHealth <= 0) {
-                m_animator.SetTrigger("Death");
-                m_isDead = true;
-            }
-            else {
-                m_animator.SetTrigger("Hurt");
-            }
+        //Combat Idle
+        else if (m_combatIdle)
+            m_animator.SetInteger("AnimState", 1);
 
-        }
-
-    }
-
-    public void OnDeath(InputAction.CallbackContext value) {
-        if (!m_isDead) {
-            m_animator.SetTrigger("Death");
-            m_isDead = true;
-        }
-
-        else {
-            m_animator.SetTrigger("Recover");
-            currentHealth = maxHealth;
-            m_isDead = false;
-        }
-
-
-    }
-
-    public void OnChangeIdle(InputAction.CallbackContext value) {
-        m_combatIdle = !m_combatIdle;
+        //Idle
+        else
+            m_animator.SetInteger("AnimState", 0);
     }
 
     void TakeDamage(int damage)
