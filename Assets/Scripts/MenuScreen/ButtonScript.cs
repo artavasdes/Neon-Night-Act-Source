@@ -12,6 +12,7 @@ public class ButtonScript : MonoBehaviour
         SceneManager.LoadScene("ConnectionScene");
     }
     public void characterSelectionSceneChange(){
-        SceneManager.LoadScene("CharacterSelection");
+        //SceneManager.LoadScene("CharacterSelection");
+        SceneManager.LoadScene("altcharselect");
     }
 }

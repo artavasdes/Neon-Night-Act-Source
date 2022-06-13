@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CharacterSelection.unity
     guid: 8a61a9dce4d3d214c8ab4f12bd8b114c
+  - enabled: 1
+    path: Assets/Scenes/altcharselect.unity
+    guid: 0309de6747e776346bfc5fffd7aacd4f
   m_configObjects: {}
