@@ -15,7 +15,7 @@ public class Character_Control : MonoBehaviour {
     private bool                m_grounded = false;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
-    public int maxHealth = 100;
+    public int maxHealth;
     public int currentHealth;
     public HealthBar healthBar;
 
@@ -24,6 +24,7 @@ public class Character_Control : MonoBehaviour {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
+        maxHealth = 100; 
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         transform.localScale = new Vector3(scale, scale, scale);
