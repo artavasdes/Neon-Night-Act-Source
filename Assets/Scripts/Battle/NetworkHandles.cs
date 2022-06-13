@@ -8,7 +8,7 @@ public class NetworkHandles : MonoBehaviour
 {
     NetworkManager manager;
     public HealthBar[] hpbars;
-    public Timer timer;
+    // public Timer timer;
 
     void Awake()
     {
@@ -44,9 +44,9 @@ public class NetworkHandles : MonoBehaviour
         }
       }
 
-      if (timer.TimeLeft > 0 && !timer.TimerOn) {
+      if (Timer.TimeLeft > 0 && !Timer.TimerOn) {
           if (manager.numPlayers == manager.maxConnections) {
-            timer.TimerOn = true;
+            Timer.TimerOn = true;
           }
       }
 
