@@ -9,6 +9,7 @@ public class NetworkHandles : MonoBehaviour
     NetworkManager manager;
     public HealthBar[] hpbars;
     public Timer timer;
+    bool sentSpawn = false;
 
     void Awake()
     {
@@ -30,12 +31,13 @@ public class NetworkHandles : MonoBehaviour
       // Debug.Log(!NetworkClient.ready, NetworkClient.isConnected);
       if (NetworkClient.isConnected) {
         if (!NetworkClient.ready) NetworkClient.Ready();
-        if (NetworkClient.localPlayer == null) {
+        if (NetworkClient.localPlayer == null && !sentSpawn) {
             // NetworkClient.AddPlayer();
 
             NetworkClient.Send(new CreateCharacterMessage {
                 characterId = AltCharacterDisplay.chosenCharacter
             });
+            sentSpawn = true;
         }
       }
 
