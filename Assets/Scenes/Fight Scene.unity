@@ -786,7 +786,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 482501039}
-  chosenCharacter: 0
+  chosenCharacter: 13
+  player1: {fileID: 1689866831511430, guid: 2e2183501755a214591e802f3aff33d2, type: 3}
 --- !u!114 &482501045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1073,7 +1074,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.560606, y: 1}
+    m_SensorSize: {x: 1.8920455, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

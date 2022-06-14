@@ -9,10 +9,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public GameObject parentCanvas;
     public int chosenCharacter = AltCharacterDisplay.chosenCharacter; 
-    
+    public GameObject player1; 
     void Awake(){
         PlayerIcon1(); // load icon 1
-        
+        Player1Char(); 
     }
 
     void PlayerIcon1(){
@@ -27,7 +27,12 @@ public class GameManager : MonoBehaviour
         GameObject PlayerIcon = Border.transform.GetChild(0).gameObject;
         GameObject icon = PlayerIcon.transform.GetChild(0).gameObject;
         icon.GetComponent<Image>().sprite = cgSprite;
+    }
 
+    void Player1Char(){
+        string cgPath = "Animation/" + chosenCharacter + "_animation/" + chosenCharacter; 
+        Animator animator = player1.GetComponent<Animator>(); 
+        animator.runtimeAnimatorController = Resources.Load(cgPath) as RuntimeAnimatorController;
 
     }
 }

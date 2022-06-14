@@ -57,6 +57,7 @@ MonoBehaviour:
   m_speed: 4
   m_jumpForce: 7.5
   scale: 1
+  damage: 10
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 0}
