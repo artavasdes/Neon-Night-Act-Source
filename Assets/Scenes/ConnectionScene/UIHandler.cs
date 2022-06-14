@@ -8,7 +8,8 @@ public class UIHandler : MonoBehaviour
     // Start is called before the first frame update
     public void onHostButtonClick() {
       GlobalNetState.isHosting = true;
-      SceneManager.LoadScene("Fight Scene");
+
+      SceneManager.LoadScene("StageSelect");
     }
 
     public void onConnectButtonClick() {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Timer : MonoBehaviour
@@ -8,6 +9,7 @@ public class Timer : MonoBehaviour
 
     public static float TimeLeft = 99.0F;
     public static bool TimerOn = false;
+    public static bool GameOver = false;
 
     public TextMeshProUGUI TimerText;
     // void Start()
@@ -30,6 +32,8 @@ public class Timer : MonoBehaviour
                 Debug.Log("Time is Up!");
                 TimeLeft = 0;
                 TimerOn = false;
+                GameOver = true;
+                SceneManager.LoadScene("MainMenu");
             }
         }
     }
