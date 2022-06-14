@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 
 public class MapManager : MonoBehaviour
 {
     public SpriteRenderer sr; 
     public List<Sprite> maps = new List<Sprite>();
-    private int selectedMap = 0;
+    public static int selectedMap = 0;
     public GameObject map;
 
     public void NextOption() {
@@ -28,7 +27,8 @@ public class MapManager : MonoBehaviour
     }
 
     public void PlayGame() {
-        PrefabUtility.SaveAsPrefabAsset(map, "Assets/selectedmap.prefab");
+        selectedMap = selectedMap+19;
+
     }
     
 }
