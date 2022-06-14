@@ -9,6 +9,13 @@ struct CreateCharacterMessage : NetworkMessage
     public int characterId;
 }
 
+public struct DamageCharacterMessage : NetworkMessage
+{
+    public bool isCharHosting;
+    public int damage;
+}
+
+
 public class NFTNetworkManager : NetworkManager
 {
     public override void OnStartServer()
@@ -16,23 +23,15 @@ public class NFTNetworkManager : NetworkManager
         base.OnStartServer();
 
         NetworkServer.RegisterHandler<CreateCharacterMessage>(OnCreateCharacter);
+        NetworkServer.RegisterHandler<DamageCharacterMessage>(OnDamageCharacter);
     }
 
-    // public override void OnClientConnect()
-    // {
-    //     base.OnClientConnect();
-    //
-    //     // you can send the message here, or wherever else you want
-    //     CreateCharacterMessage characterMessage = new CreateCharacterMessage
-    //     {
-    //         race = Race.Elvish,
-    //         name = "Joe Gaba Gaba",
-    //         hairColor = Color.red,
-    //         eyeColor = Color.green
-    //     };
-    //
-    //     NetworkClient.Send(characterMessage);
-    // }
+    void OnDamageCharacter(NetworkConnectionToClient conn, DamageCharacterMessage message) {
+      if (GlobalNetState.isHosting == message.isCharHosting) {
+        Character_Control player = NetworkClient.localPlayer.GetComponent<Character_Control>();
+        player.TakeDamage(message.damage);
+      }
+    }
 
     void OnCreateCharacter(NetworkConnectionToClient conn, CreateCharacterMessage message)
     {
