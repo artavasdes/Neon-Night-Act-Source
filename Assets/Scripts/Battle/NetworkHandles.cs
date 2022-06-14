@@ -8,7 +8,7 @@ public class NetworkHandles : MonoBehaviour
 {
     NetworkManager manager;
     public HealthBar[] hpbars;
-    // public Timer timer;
+    public Timer timer;
 
     void Awake()
     {
@@ -27,8 +27,9 @@ public class NetworkHandles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      if (NetworkClient.isConnected && !NetworkClient.ready) {
-        NetworkClient.Ready();
+      // Debug.Log(!NetworkClient.ready, NetworkClient.isConnected);
+      if (NetworkClient.isConnected) {
+        if (!NetworkClient.ready) NetworkClient.Ready();
         if (NetworkClient.localPlayer == null) {
             NetworkClient.AddPlayer();
         }
@@ -45,7 +46,6 @@ public class NetworkHandles : MonoBehaviour
           break;
         }
       }
-
       if (Timer.TimeLeft > 0 && !Timer.TimerOn) {
           if (manager.numPlayers == manager.maxConnections) {
             Timer.TimerOn = true;

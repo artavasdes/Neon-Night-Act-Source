@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
-
-public class Character_Control : MonoBehaviour {
+using Mirror;
+public class Character_Control : NetworkBehaviour {
     [SerializeField] float      m_speed = 4.0f;
     [SerializeField] float      m_jumpForce = 7.5f;
     [SerializeField] float      scale = 2f;
@@ -24,7 +24,7 @@ public class Character_Control : MonoBehaviour {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
-        maxHealth = 100; 
+        maxHealth = 100;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         transform.localScale = new Vector3(scale, scale, scale);
@@ -32,6 +32,9 @@ public class Character_Control : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        if (!isLocalPlayer) {
+          return;
+        }
         //Check if character just landed on the ground
         if (!m_grounded && m_groundSensor.State()) {
             m_grounded = true;
