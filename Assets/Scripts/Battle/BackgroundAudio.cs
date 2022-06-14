@@ -16,14 +16,16 @@ public class BackgroundAudio : MonoBehaviour
         audioComponent.clip = Resources.Load<AudioClip>("Audio/StageAudio/map_" + MapManager.selectedMap);
         //AudioSource audioBack = Resources.Load<AudioSource>("Audio/StageAudio/map_" + MapManager.selectedMap);
         Debug.Log("Audio load");
+        audioComponent.volume = 0.1f;
         audioComponent.loop = true;
         audioComponent.Play();
         Debug.Log("Audio end");
     }
 
     void Update(){
-        // if(GameEnd == true){
-        //     audioBack.Stop();
-        // }
+        if(Timer.GameOver == true){
+            AudioSource audioComponent = audioObj.GetComponent<AudioSource>();
+            audioComponent.Stop();
+        }
     }
 }
