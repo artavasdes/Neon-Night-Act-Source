@@ -9,7 +9,7 @@ public class Character_Control : NetworkBehaviour {
     [SerializeField] float      scale = 2f;
 
 
-
+    public int damage = 10; 
     private Animator            m_animator;
     private Rigidbody2D         m_body2d;
     private Sensor_Bandit       m_groundSensor;
@@ -19,6 +19,9 @@ public class Character_Control : NetworkBehaviour {
     public int maxHealth;
     public int currentHealth;
     public HealthBar healthBar;
+    public Transform attackPoint; 
+    public float attackRange = 0.5f; 
+    public LayerMask playerLayers; 
 
     // Use this for initialization
     void Start () {
@@ -49,7 +52,6 @@ public class Character_Control : NetworkBehaviour {
 
         //Check if character just started falling
         if(m_grounded && !m_groundSensor.State()) {
-            Debug.Log("2");
             m_grounded = true;
             m_animator.SetBool("isGrounded", m_grounded);
         }
@@ -82,15 +84,18 @@ public class Character_Control : NetworkBehaviour {
         // }
 
         //Hurt
-        if (Input.GetKeyDown("q")){
-            TakeDamage(20);
-            m_animator.SetTrigger("Hurt");
-        }
+        // if (Input.GetKeyDown("q")){
+        //     TakeDamage(20);
+        // }
 
         //Attack
-        else if(Input.GetMouseButtonDown(0)) {
+        if(Input.GetMouseButtonDown(0)) {
             int i  = Random.Range(1, 4);
             m_animator.SetTrigger("Attack" + i);
+            Collider2D[] hitPlayers = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayers);
+            foreach(Collider2D player in hitPlayers){
+                player.GetComponent<Character_Control>().TakeDamage(damage);
+            }
         }
         // block
         else if (Input.GetMouseButton(1)){
@@ -105,8 +110,14 @@ public class Character_Control : NetworkBehaviour {
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             m_groundSensor.Disable(0.2f);
         }
+    }
 
 
+    void OnDrawGizmosSelected(){
+        if (attackPoint == null){
+            return; 
+        }
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
     void TakeDamage(int damage)
@@ -114,10 +125,14 @@ public class Character_Control : NetworkBehaviour {
       if (!isLocalPlayer) {
         return;
       }
+
+        m_animator.SetTrigger("Hurt");
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+
         if (currentHealth <= 0){
             m_animator.SetTrigger("Death");
+            this.enabled = false; 
         }
     }
 }

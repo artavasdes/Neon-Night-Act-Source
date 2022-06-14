@@ -786,7 +786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 482501039}
-  chosenCharacter: 5
+  chosenCharacter: 0
 --- !u!114 &482501045
 MonoBehaviour:
   m_ObjectHideFlags: 0
