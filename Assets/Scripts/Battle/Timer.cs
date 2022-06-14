@@ -6,8 +6,8 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
 
-    public float TimeLeft = 200.0F;
-    public bool TimerOn = false;
+    public static float TimeLeft = 99.0F;
+    public static bool TimerOn = false;
 
     public TextMeshProUGUI TimerText;
     // void Start()
