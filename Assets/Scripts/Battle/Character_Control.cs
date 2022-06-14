@@ -31,6 +31,11 @@ public class Character_Control : NetworkBehaviour {
         transform.localScale = new Vector3(scale, scale, scale);
     }
 
+    public void SetCharacterId(int id) {
+      // empty
+      Debug.Log("Id " + id);
+    }
+
 	// Update is called once per frame
 	void Update () {
         if (!isLocalPlayer) {

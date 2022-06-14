@@ -5,9 +5,25 @@ using UnityEngine;
 public class BackgroundAudio : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField]
+    private GameObject audioObj;
     void Awake()
     {
-       AudioSource audioBack = Resources.Load<AudioSource>("Audio/StageAudio/map_" + MapManager.selectedMap);
-       audioBack.Play(); 
+        Debug.Log("Audio start");
+        Debug.Log(MapManager.selectedMap);
+        audioObj.AddComponent<AudioSource>();
+        AudioSource audioComponent = audioObj.GetComponent<AudioSource>();
+        audioComponent.clip = Resources.Load<AudioClip>("Audio/StageAudio/map_" + MapManager.selectedMap);
+        //AudioSource audioBack = Resources.Load<AudioSource>("Audio/StageAudio/map_" + MapManager.selectedMap);
+        Debug.Log("Audio load");
+        audioComponent.loop = true;
+        audioComponent.Play();
+        Debug.Log("Audio end");
+    }
+
+    void Update(){
+        // if(GameEnd == true){
+        //     audioBack.Stop();
+        // }
     }
 }

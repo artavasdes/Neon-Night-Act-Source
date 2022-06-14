@@ -7,28 +7,30 @@ public class MapManager : MonoBehaviour
 {
     public SpriteRenderer sr; 
     public List<Sprite> maps = new List<Sprite>();
-    public static int selectedMap = 0;
+    private int mapRotation = 0;
+    public static int selectedMap = 19;
     public GameObject map;
 
     public void NextOption() {
-        selectedMap += 1;
-        if (selectedMap == maps.Count) {
-            selectedMap = 0;
+        mapRotation += 1;
+        if (mapRotation == maps.Count) {
+            mapRotation = 0;
         }
-        sr.sprite = maps[selectedMap];
+        sr.sprite = maps[mapRotation];
     }
 
     public void BackOption() {
-        selectedMap -= 1;
-        if (selectedMap < 0) {
-            selectedMap = maps.Count - 1;
+        mapRotation -= 1;
+        if (mapRotation < 0) {
+            mapRotation = maps.Count - 1;
         }
-        sr.sprite = maps[selectedMap];
+        sr.sprite = maps[mapRotation];
     }
 
     public void PlayGame() {
-        selectedMap = selectedMap+19;
-
+        //switch scene over to fight
+        selectedMap += mapRotation;
+        SceneManager.LoadScene("Fight Scene");
     }
     
 }

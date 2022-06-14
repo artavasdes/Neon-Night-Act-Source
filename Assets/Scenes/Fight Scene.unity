@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.36076003, g: 0.47007632, b: 0.6320754, a: 1}
+  m_Color: {r: 0.8584906, g: 0.6924617, b: 0.6924617, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -546,6 +546,51 @@ Transform:
   m_Father: {fileID: 482501043}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &422923532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 422923534}
+  - component: {fileID: 422923535}
+  m_Layer: 0
+  m_Name: AudioObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &422923534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422923532}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 143.97812, y: 143.97812, z: 143.97812}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 482501043}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &422923535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422923532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e08bb9594c30553449ae48fe47bb7fd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioObj: {fileID: 422923532}
 --- !u!95 &269329745
 Animator:
   serializedVersion: 4
@@ -655,6 +700,7 @@ GameObject:
   - component: {fileID: 482501041}
   - component: {fileID: 482501040}
   - component: {fileID: 482501044}
+  - component: {fileID: 482501045}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -736,6 +782,7 @@ RectTransform:
   m_LocalScale: {x: 0.0069455, y: 0.0069455, z: 0.0069455}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 422923534}
   - {fileID: 1269909655}
   - {fileID: 1387891649}
   - {fileID: 269329744}
@@ -761,6 +808,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 482501039}
   chosenCharacter: 5
+--- !u!114 &482501045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482501039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a650af8a7a928bf4b9590084e889e0e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapImage: {fileID: 223311896}
 --- !u!1 &564899775
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +896,8 @@ MonoBehaviour:
   m_text: 99
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f7d38b11537d145bbb2ce560b97f8a24, type: 2}
-  m_sharedMaterial: {fileID: 6050247180044704126, guid: f7d38b11537d145bbb2ce560b97f8a24, type: 2}
+  m_sharedMaterial: {fileID: 6050247180044704126, guid: f7d38b11537d145bbb2ce560b97f8a24,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1902,7 +1963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Port: 7777
+  Port: 55634
   DualMode: 1
   NoDelay: 1
   Interval: 10
@@ -1941,7 +2002,8 @@ MonoBehaviour:
   networkAddress: localhost
   maxConnections: 2
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 1689866831511430, guid: 2e2183501755a214591e802f3aff33d2, type: 3}
+  playerPrefab: {fileID: 1689866831511430, guid: 2e2183501755a214591e802f3aff33d2,
+    type: 3}
   autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs: []
