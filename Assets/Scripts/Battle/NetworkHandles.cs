@@ -31,7 +31,13 @@ public class NetworkHandles : MonoBehaviour
       if (NetworkClient.isConnected) {
         if (!NetworkClient.ready) NetworkClient.Ready();
         if (NetworkClient.localPlayer == null) {
-            NetworkClient.AddPlayer();
+            // NetworkClient.AddPlayer();
+            CreateCharacterMessage characterMessage = new CreateCharacterMessage
+            {
+                characterId = AltCharacterDisplay.chosenCharacter
+            };
+
+            NetworkClient.Send(characterMessage);
         }
       }
 
