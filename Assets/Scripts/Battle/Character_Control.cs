@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using Mirror;
+
 public class Character_Control : NetworkBehaviour {
     [SerializeField] float      m_speed = 4.0f;
     [SerializeField] float      m_jumpForce = 7.5f;
@@ -38,13 +39,13 @@ public class Character_Control : NetworkBehaviour {
         //Check if character just landed on the ground
         if (!m_grounded && m_groundSensor.State()) {
             m_grounded = true;
-            m_animator.SetBool("Grounded", m_grounded);
+            m_animator.SetBool("isGrounded", m_grounded);
         }
 
         //Check if character just started falling
         if(m_grounded && !m_groundSensor.State()) {
             m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
+            m_animator.SetBool("isGrounded", m_grounded);
         }
 
         // -- Handle input and movement --
@@ -56,8 +57,14 @@ public class Character_Control : NetworkBehaviour {
         else if (inputX < 0)
             transform.localScale = new Vector3(scale, scale, scale);
 
-        // Move
-        m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+        //Move
+        if (inputX != 0){
+            m_body2d.velocity = new Vector2((inputX * m_speed), m_body2d.velocity.y);
+            m_animator.SetFloat("speed", Mathf.Abs(inputX * m_speed));
+        }
+        else {
+            m_animator.SetFloat("speed", 0);
+        }
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
@@ -65,12 +72,7 @@ public class Character_Control : NetworkBehaviour {
         // -- Handle Animations --
         //Death
         if (Input.GetKeyDown("e")) {
-            if(!m_isDead)
-                m_animator.SetTrigger("Death");
-            else
-                m_animator.SetTrigger("Recover");
-
-            m_isDead = !m_isDead;
+            m_animator.SetTrigger("Death");
         }
 
         //Hurt
@@ -81,33 +83,22 @@ public class Character_Control : NetworkBehaviour {
 
         //Attack
         else if(Input.GetMouseButtonDown(0)) {
-            m_animator.SetTrigger("Attack");
+            int i  = Random.Range(1, 4);
+            m_animator.SetTrigger("Attack" + i);
         }
-
-        //Change between idle and combat idle
-        else if (Input.GetKeyDown("f"))
-            m_combatIdle = !m_combatIdle;
 
         //Jump
         else if (Input.GetKeyDown("space") && m_grounded) {
+            Debug.Log("JUMP");
             m_animator.SetTrigger("Jump");
             m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
+            m_animator.SetBool("isGrounded", m_grounded);
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             m_groundSensor.Disable(0.2f);
         }
+        Debug.Log(m_grounded);
 
-        //Run
-        else if (Mathf.Abs(inputX) > Mathf.Epsilon)
-            m_animator.SetInteger("AnimState", 2);
 
-        //Combat Idle
-        else if (m_combatIdle)
-            m_animator.SetInteger("AnimState", 1);
-
-        //Idle
-        else
-            m_animator.SetInteger("AnimState", 0);
     }
 
     void TakeDamage(int damage)
@@ -117,8 +108,8 @@ public class Character_Control : NetworkBehaviour {
       }
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
-        if (currentHealth <= 0){
-            m_animator.SetTrigger("Death");
-        }
+        // if (currentHealth <= 0){
+        //     m_animator.SetTrigger("Death");
+        // }
     }
 }
