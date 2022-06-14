@@ -26,7 +26,7 @@ public class Character_Control : NetworkBehaviour {
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
         maxHealth = 100;
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        // healthBar.SetMaxHealth(maxHealth);
         transform.localScale = new Vector3(scale, scale, scale);
     }
 
@@ -112,6 +112,9 @@ public class Character_Control : NetworkBehaviour {
 
     void TakeDamage(int damage)
     {
+      if (!isLocalPlayer) {
+        return;
+      }
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0){

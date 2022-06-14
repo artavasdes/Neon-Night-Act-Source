@@ -35,9 +35,8 @@ public class NetworkHandles : MonoBehaviour
         }
       }
 
-
-      foreach( KeyValuePair<uint, NetworkIdentity> kvp in NetworkServer.spawned) {
-        NetworkIdentity player = kvp.Value;
+      var players = FindObjectsOfType<NetworkIdentity>();
+      foreach( NetworkIdentity player in players) {
         Character_Control ctrl = player.GetComponent<Character_Control>();
         if (ctrl.healthBar) continue;
         for (int i = 0; i < 2; ++i) if (!hpbars[i].taken) {
@@ -47,7 +46,7 @@ public class NetworkHandles : MonoBehaviour
         }
       }
       if (Timer.TimeLeft > 0 && !Timer.TimerOn) {
-          if (manager.numPlayers == manager.maxConnections) {
+          if (players.Length == manager.maxConnections) {
             Timer.TimerOn = true;
           }
       }
