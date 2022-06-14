@@ -9,7 +9,7 @@ public class Character_Control : NetworkBehaviour {
     [SerializeField] float      scale = 2f;
 
 
-    public int damage = 10; 
+    public int damage = 10;
     private Animator            m_animator;
     private Rigidbody2D         m_body2d;
     private Sensor_Bandit       m_groundSensor;
@@ -19,9 +19,9 @@ public class Character_Control : NetworkBehaviour {
     public int maxHealth;
     public int currentHealth;
     public HealthBar healthBar;
-    public Transform attackPoint; 
-    public float attackRange = 0.5f; 
-    public LayerMask playerLayers; 
+    public Transform attackPoint;
+    public float attackRange = 0.5f;
+    public LayerMask playerLayers;
 
     // Use this for initialization
     void Start () {
@@ -41,6 +41,10 @@ public class Character_Control : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        if (healthBar) {
+          healthBar.SetMaxHealth(maxHealth);
+          healthBar.SetHealth(currentHealth);
+        }
         if (!isLocalPlayer) {
           return;
         }
@@ -75,7 +79,7 @@ public class Character_Control : NetworkBehaviour {
         }
 
         //Set AirSpeed in animator
-        m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
+        // m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
 
         // -- Handle Animations --
         //Death
@@ -84,9 +88,9 @@ public class Character_Control : NetworkBehaviour {
         // }
 
         //Hurt
-        // if (Input.GetKeyDown("q")){
-        //     TakeDamage(20);
-        // }
+        if (Input.GetKeyDown("q")){
+            TakeDamage(20);
+        }
 
         //Attack
         if(Input.GetMouseButtonDown(0)) {
@@ -99,7 +103,7 @@ public class Character_Control : NetworkBehaviour {
         }
         // block
         else if (Input.GetMouseButton(1)){
-            m_animator.SetTrigger("Block"); 
+            m_animator.SetTrigger("Block");
         }
 
         //Jump
@@ -115,24 +119,26 @@ public class Character_Control : NetworkBehaviour {
 
     void OnDrawGizmosSelected(){
         if (attackPoint == null){
-            return; 
+            return;
         }
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
       if (!isLocalPlayer) {
+        NetworkClient.Send(new DamageCharacterMessage {
+            damage = AltCharacterDisplay.chosenCharacter,
+            isCharHosting = !GlobalNetState.isHosting
+        });
         return;
       }
-
         m_animator.SetTrigger("Hurt");
         currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
 
         if (currentHealth <= 0){
             m_animator.SetTrigger("Death");
-            this.enabled = false; 
+            this.enabled = false;
         }
     }
 }
