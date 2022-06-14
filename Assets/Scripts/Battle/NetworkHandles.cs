@@ -19,7 +19,9 @@ public class NetworkHandles : MonoBehaviour
       manager.networkAddress = GlobalNetState.connectionUri;
       if (GlobalNetState.isHosting) {
         manager.StartHost();
-      } else manager.StartClient();
+      } else {
+        manager.StartClient();
+      }
     }
 
     // Update is called once per frame
