@@ -38,87 +38,41 @@ public class EthereumWallettInputScript : MonoBehaviour
     }
 
     void Awake(){
-        string path = Application.dataPath;
         for(int i = 0; i < 14; i++){
-            //Obtains b/w character cg
-            string grayCGPath = "";
+            GameObject button = ParentPanel.transform.GetChild(i).gameObject;
+            Button buttonClick = button.GetComponent<Button>();
+            buttonClick.transform.SetParent(ParentPanel.transform);
             if(i == 13){
-                grayCGPath = "HighQualityCGs/Normal/" + i + "cg";
+                button.GetComponent<Button>().interactable = true;
             }
             else{
-                grayCGPath = "HighQualityCGs/Gray/" + i + "gray";
-            }           
-            Texture2D grayCG = Resources.Load<Texture2D>(grayCGPath);
-            Sprite grayCGSprite = Sprite.Create(grayCG, new Rect(0.0f, 0.0f, grayCG.width, grayCG.height), new Vector2(0.5f, 0.5f), 100.0f);
-            GameObject NewObj = new GameObject();
-            Image imageRenderer = NewObj.AddComponent<Image>();
-            imageRenderer.sprite = grayCGSprite;
-            NewObj.GetComponent<RectTransform>().SetParent(ParentPanel.transform);
-            if(i == 0){
-                NewObj.GetComponent<RectTransform>().position = new Vector2((i*4)-8,2.5f);
-                NewObj.GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 3.5f);
-            }
-            else if(i<5){
-                NewObj.GetComponent<RectTransform>().position = new Vector2((i*4)-8,3);
-                NewObj.GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 3.5f);
-            }
-            else if(i<7){
-                NewObj.GetComponent<RectTransform>().position = new Vector2((i*3)-22,0);
-                NewObj.GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 3.5f);
-            }
-            else if(i<10){
-                NewObj.GetComponent<RectTransform>().position = new Vector2((i*3)-22,0);
-                NewObj.GetComponent<RectTransform>().sizeDelta = new Vector2(4f, 4f);
-            }
-            else if(i == 10){
-                NewObj.GetComponent<RectTransform>().position = new Vector2((i*4)-45,-3);
-                NewObj.GetComponent<RectTransform>().sizeDelta = new Vector2(3.5f, 3.5f);
-            }
-            else if(i == 11 || i == 12){
-                NewObj.GetComponent<RectTransform>().position = new Vector2((i*4)-45,-3);
-                NewObj.GetComponent<RectTransform>().sizeDelta = new Vector2(2.75f, 2.75f);
-            }
-            else{
-                NewObj.GetComponent<RectTransform>().position = new Vector2((i*4)-45,-2f);
-                NewObj.GetComponent<RectTransform>().sizeDelta = new Vector2(4.5f, 4.5f);
-            }            
-            NewObj.SetActive(true);
-            if(i != 13){
-                objectsList.Add(NewObj);
+                button.GetComponent<Button>().interactable = false;
             }
         }
     }
 
     void MakeGray(){
-        string path = Application.dataPath;
         for(int i = 0; i < 13; i++){
-            string grayCGPath = "HighQualityCGs/Gray/" + i + "gray";
-            Texture2D grayCG = Resources.Load<Texture2D>(grayCGPath);
-            Sprite grayCGSprite = Sprite.Create(grayCG , new Rect(0.0f, 0.0f, grayCG.width, grayCG.height), new Vector2(0.5f, 0.5f), 100.0f);
-            GameObject NewObj = objectsList[i];
-            Image imageRenderer = NewObj.GetComponent<Image>();
-            imageRenderer.sprite = grayCGSprite;
+            GameObject button = ParentPanel.transform.GetChild(i).gameObject;
+            Button buttonClick = button.GetComponent<Button>();
+            buttonClick.transform.SetParent(ParentPanel.transform);
+            button.GetComponent<Button>().interactable = false;
         }                      
     }
 
     private void CharacterDisplayer(Dictionary<int, bool> nftDic){
-        string path = Application.dataPath;
         for(int i = 0; i < 13; i++){
             if (nftDic[i] == true){
-                string cgPath = "HighQualityCGs/Normal/" + i + "cg";
-                Texture2D CG = Resources.Load<Texture2D>(cgPath);
-                Sprite cgSprite = Sprite.Create(CG, new Rect(0.0f, 0.0f, CG.width, CG.height), new Vector2(0.5f, 0.5f), 100.0f);
-                GameObject NewObj = objectsList[i];
-                Image imageRenderer = NewObj.GetComponent<Image>();
-                imageRenderer.sprite = cgSprite;
+                GameObject button = ParentPanel.transform.GetChild(i).gameObject;
+                Button buttonClick = button.GetComponent<Button>();
+                buttonClick.transform.SetParent(ParentPanel.transform);
+                button.GetComponent<Button>().interactable = true;
             }
             else{
-                string grayCGPath = "HighQualityCGs/Gray/" + i + "gray";
-                Texture2D grayCG = Resources.Load<Texture2D>(grayCGPath);
-                Sprite grayCGSprite = Sprite.Create(grayCG , new Rect(0.0f, 0.0f, grayCG.width, grayCG.height), new Vector2(0.5f, 0.5f), 100.0f);
-                GameObject NewObj = objectsList[i];
-                Image imageRenderer = NewObj.GetComponent<Image>();
-                imageRenderer.sprite = grayCGSprite;
+                GameObject button = ParentPanel.transform.GetChild(i).gameObject;
+                Button buttonClick = button.GetComponent<Button>();
+                buttonClick.transform.SetParent(ParentPanel.transform);
+                button.GetComponent<Button>().interactable = false;
             }                      
         }
     }
