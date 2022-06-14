@@ -13,7 +13,7 @@ public class Character_Control : NetworkBehaviour {
     private Animator            m_animator;
     private Rigidbody2D         m_body2d;
     private Sensor_Bandit       m_groundSensor;
-    private bool                m_grounded = false;
+    private bool                m_grounded = true;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
     public int maxHealth;
@@ -49,7 +49,8 @@ public class Character_Control : NetworkBehaviour {
 
         //Check if character just started falling
         if(m_grounded && !m_groundSensor.State()) {
-            m_grounded = false;
+            Debug.Log("2");
+            m_grounded = true;
             m_animator.SetBool("isGrounded", m_grounded);
         }
 
@@ -76,12 +77,12 @@ public class Character_Control : NetworkBehaviour {
 
         // -- Handle Animations --
         //Death
-        if (Input.GetKeyDown("e")) {
-            m_animator.SetTrigger("Death");
-        }
+        // if (Input.GetKeyDown("e")) {
+        //     m_animator.SetTrigger("Death");
+        // }
 
         //Hurt
-        else if (Input.GetKeyDown("q")){
+        if (Input.GetKeyDown("q")){
             TakeDamage(20);
             m_animator.SetTrigger("Hurt");
         }
@@ -91,17 +92,19 @@ public class Character_Control : NetworkBehaviour {
             int i  = Random.Range(1, 4);
             m_animator.SetTrigger("Attack" + i);
         }
+        // block
+        else if (Input.GetMouseButton(1)){
+            m_animator.SetTrigger("Block"); 
+        }
 
         //Jump
-        else if (Input.GetKeyDown("space") && m_grounded) {
-            Debug.Log("JUMP");
+        else if (Input.GetKeyDown(KeyCode.Space) && m_grounded) {
             m_animator.SetTrigger("Jump");
-            m_grounded = false;
+            m_grounded = true;
             m_animator.SetBool("isGrounded", m_grounded);
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             m_groundSensor.Disable(0.2f);
         }
-        Debug.Log(m_grounded);
 
 
     }
@@ -113,8 +116,8 @@ public class Character_Control : NetworkBehaviour {
       }
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
-        // if (currentHealth <= 0){
-        //     m_animator.SetTrigger("Death");
-        // }
+        if (currentHealth <= 0){
+            m_animator.SetTrigger("Death");
+        }
     }
 }
