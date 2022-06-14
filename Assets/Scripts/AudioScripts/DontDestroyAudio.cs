@@ -6,10 +6,15 @@ using UnityEngine.SceneManagement;
 public class DontDestroyAudio : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource audioSource;
-    // Start is called before the first frame update
+    private GameObject audioObj;
+
     void Awake(){
-        audioSource.Play();
+        audioObj.AddComponent<AudioSource>();
+        AudioSource audioComponent = audioObj.GetComponent<AudioSource>();
+        audioComponent.clip = Resources.Load<AudioClip>("Audio/mainmenumusic");
+        audioComponent.loop = true;
+        audioComponent.Play();
+
         // Scene currentScene = SceneManager.GetActiveScene ();
         // string sceneName = currentScene.name;
         // if(sceneName == "CharacterSelection"){
