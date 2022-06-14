@@ -18,6 +18,22 @@ public class NFTNetworkManager : NetworkManager
         NetworkServer.RegisterHandler<CreateCharacterMessage>(OnCreateCharacter);
     }
 
+    // public override void OnClientConnect()
+    // {
+    //     base.OnClientConnect();
+    //
+    //     // you can send the message here, or wherever else you want
+    //     CreateCharacterMessage characterMessage = new CreateCharacterMessage
+    //     {
+    //         race = Race.Elvish,
+    //         name = "Joe Gaba Gaba",
+    //         hairColor = Color.red,
+    //         eyeColor = Color.green
+    //     };
+    //
+    //     NetworkClient.Send(characterMessage);
+    // }
+
     void OnCreateCharacter(NetworkConnectionToClient conn, CreateCharacterMessage message)
     {
         // playerPrefab is the one assigned in the inspector in Network
@@ -29,6 +45,7 @@ public class NFTNetworkManager : NetworkManager
         Character_Control player = gameobject.GetComponent<Character_Control>();
         player.SetCharacterId(message.characterId);
 
+        player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
         // call this to use this gameobject as the primary controller
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
